@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <form action="/" method="post" enctype="multipart/form-data" class="mx-auto" style="max-width:500px;">
+        <div class="form-group">
+            <label>1. Source Translation Files</label>
+            <input type="file" class="form-control-file" name="sources[]" multiple required>
+            <label class="mt-3">2. Target File</label>
+            <input type="file" class="form-control-file" name="target" required>
+        </div>
+        <hr/>
+        <button type="submit" class="btn btn-success mt-1 float-right">Submit</button>
+    </form>
+    <div class="clearfix mb-3"></div>
+
+    {% if stdout %}
+        <div class="alert alert-success message-bar" style="position:relative">
+            <span style="position:absolute;top:1px;right:10px;cursor:pointer;">x</span>
+            <pre>{{ stdout }}</pre>
+        </div>
+    {% endif %}
+
+    {% if stderr %}
+        <div class="alert alert-danger message-bar" style="position:relative">
+            <span style="position:absolute;top:1px;right:10px;cursor:pointer;">x</span>
+            <pre>{{ stderr }}</pre>
+        </div>
+    {% endif %}
+
+    {% if target_file_path %}
+        <form id="form-export" method="post" action="/export">
+            <input type="hidden" name="target_file_path" value="{{ target_file_path }}">
+            <input type="hidden" name="target_file_name" value="{{ target_file_name }}">
+        </form>
+    {% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $('.message-bar span').on('click', function(){
+        $(this).closest('.message-bar').hide();
+    });
+    $('input[type="file"]').on('change', function(){
+        $('.message-bar').hide();
+    });
+    $(function(){
+        $('#form-export').submit();
+    });
+</script>
+{% endblock %}
