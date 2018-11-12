@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="qtools2 web ui">
+    <meta name="author" content="bciar">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <link href="../static/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <main role="main" class="container">
+        <div class="qtools-container">
+            <div class="jumbotron">
+                <div class="container text-center">
+                    <h1 class="display-3">PMIX-Borrow</h1>
+                    <p>The purpose of the Pmix Borrow module use to assist with translation management of ODK forms. It is especially useful for merging translations from one file into another.
+                    </p>
+                </div>
+            </div>
+            {% block body %}{% endblock %}
+        </div>
+    </main><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="../static/bootstrap.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
