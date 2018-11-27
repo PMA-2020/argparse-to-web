@@ -1,14 +1,12 @@
-"""Web application for XFormTest
-
-http://xform-test.pma2020.org
-"""
+"""App"""
 import platform
 import os
-import flask
+
 from flask import Flask, render_template, request, send_file
+from pmix.borrow import borrow
+
 # noinspection PyProtectedMember
-from static_methods import _run_background_process, upload_file
-from werkzeug.utils import secure_filename
+from static_methods import upload_file
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -17,23 +15,52 @@ path_char = '\\' if platform.system() == 'Windows' else '/'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if flask.request.method == 'GET':
+    """Index"""
+    if request.method == 'GET':
         return render_template('index.html')
     else:
         try:
-            base_files = flask.request.files.getlist("sources[]")
-            base_file_names = '';
-            for base_file in base_files:
-                base_file_name = upload_file(base_file)
-                base_file_names += ' '+base_file_name
+            source_files = request.files.getlist("sources[]")
+            source_file_names = []
+            for file in source_files:
+                filename = upload_file(file)
+                source_file_names.append(filename)  # TODO: make sure is list
             target_origin = request.files['target']
             target_file = upload_file(target_origin)
-            '''options_list = request.form.getlist('options[]')
-            options = " ".join(options_list)'''
+            # options_list = request.form.getlist('options[]')
+            # options = " ".join(options_list)
 
-            command = "python -m pmix.borrow -m "+target_file+" "+base_file_names
-            stdout, stderr = _run_background_process(command)
-            return render_template('index.html', stderr=stderr, stdout=stdout, target_file_path=target_file, target_file_name=target_origin.filename)
+            # command = _build_cli_command(target_file=target_file,
+            #                              outpath=basedir + path_char +
+            #                              'temp_uploads',
+            #                              source_file_names=source_file_names)
+            # stdout, stderr = _run_background_process(command)
+            output_filename = 'result.xlsx'
+            outpath = basedir + path_char + 'temp_uploads' + path_char + \
+                      output_filename
+            kwargs = {
+                'merge': target_file,
+                'merge_all': None,
+                'correct': None,
+                'no_diverse': None,
+                'diverse': None,
+                'add': None,
+                'ignore': None,
+                'carry': None,
+                'outpath': outpath,
+                'xlsxfiles': source_file_names
+            }
+
+            # TODO: capture stderr and stdout from here
+            borrow(**kwargs)
+            stderr = ''
+            stdout = ''
+
+            return render_template('index.html',
+                                   stderr=stderr,
+                                   stdout=stdout,
+                                   output_file_path=outpath,
+                                   output_file_name=output_filename)
 
         except Exception as err:
             msg = 'An unexpected error occurred:\n\n' + str(err)
@@ -42,9 +69,10 @@ def index():
 
 @app.route('/export', methods=['POST'])
 def export():
-    target_file_path = request.form['target_file_path']
-    target_file_name = request.form['target_file_name']
-    return send_file(target_file_path, None, True, target_file_name)
+    """Export"""
+    output_file_path = request.form['output_file_path']
+    output_file_name = request.form['output_file_name']
+    return send_file(output_file_path, None, True, output_file_name)
 
 
 if __name__ == '__main__':
