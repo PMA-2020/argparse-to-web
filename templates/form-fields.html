@@ -1,0 +1,89 @@
+{# TODO: multiple text inputs. How to do?
+{# TODO (low priority): Choices #}
+{# TODO (low priority): Validation (data type, etc) #}
+
+{% set choices = fld['choices'] %}
+{% set default = fld['default'] %}
+{% set help = fld['help'] %}
+{% set label = fld['label'] %}
+{% set is_multiple = fld['multiple_input'] %}
+{% set multiple_input_has_limit = fld['multiple_input_has_limit'] %}
+{% set multiple_input_limit = fld['multiple_input_limit'] %}
+{% set name = fld['name'] %}
+{% set is_required = fld['required'] %}
+{% set type = fld['type'] %}
+{% set validation_type = fld['validation_type'] %}
+{% set class = 'form-control' + '-file' if type == 'file' else '' %}
+{% set multiple = ' multiple' if is_multiple else '' %}
+{% set required = ' required' if is_required else '' %}
+{% set checked = ' checked' if type == 'checkbox' and default else '' %}
+{# TODO: No hyphens when can stop this: placeholder=""testing" 1 2 3 #}
+{% set placeholder = 'placeholder='
+  if type == 'text' and default else '' %}
+{% set defaultText = default.replace(' ', '-')
+  if type == 'text' and default else '' %}
+
+
+{% if type == 'checkbox' %}
+  <span style="font-size: 1.3em;">
+    {{ label }}
+  </span>
+
+
+  <div class="form-check" style="margin-bottom: 16px;">
+    <input
+      id="{{ name }}"
+      name="{{ name }}"
+      class="form-check-input"
+      aria-describedby="{{ name }}HelpBlock"
+      type="{{ type }}"
+      {{ placeholder }}{{ defaultText }}
+      {{ multiple }}
+      {{ required }}
+      {{ checked }}>
+
+    <label
+      id="{{ name }}HelpBlock"
+      class="form-check-label form-text text-muted">
+      <small>
+        {{ help }}
+      </small>
+    </label>
+  </div>
+
+
+{% else %}
+  <div class="form-group">
+    <label
+      for="{{ name }}">
+      <span style="font-size: 1.3em;">
+        {{ label }}{{ '*' if is_required else '' }}
+      </span>
+    </label>
+
+    <input
+      id="{{ name }}"
+      name="{{ name }}"
+      class="form-control"
+      aria-describedby="{{ name }}HelpBlock"
+      type="{{ type }}"
+      {{ placeholder }}{{ defaultText }}
+      {{ multiple }}
+      {{ required }}
+      {{ checked }}>
+
+    <small
+      id="{{ name }}HelpBlock"
+      class="form-text text-muted">
+      {{ help }}
+    </small>
+    {% if is_required %}
+    <small
+      id="{{ name }}RequiredBlock"
+      class="form-text text-muted">
+      *Required
+    </small>
+    {% endif %}
+  </div>
+{% endif %}
+<br/>

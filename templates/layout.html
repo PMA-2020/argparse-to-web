@@ -1,4 +1,10 @@
 <!doctype html>
+
+{% set fields = webform['fields'] %}
+{% set advanced_fields = webform['advanced_fields'] %}
+{% set title = webform['title'] %}
+{% set subtitle = webform['subtitle'] %}
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -7,37 +13,36 @@
     <meta name="description" content="Pmix Borrow">
     <meta name="author" content="Bciar; Joe Flack">
 
-    <title>Pmix Borrow</title>
+    <link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css">
 
-    <link href="../static/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/style.css" rel="stylesheet">
+    <title>{{ title }}</title>
   </head>
 
   <body>
-
     <main role="main" class="container">
-        <div class="qtools-container">
-            <div class="jumbotron">
-                <div class="container text-center">
-                    <h1 class="display-3">Pmix Borrow</h1>
-                    <p>The purpose of the Pmix Borrow module use to assist with
-translation management of ODK forms. It is especially useful for merging
-translations from one file into another.
-                    </p>
-                </div>
-            </div>
-            {% block body %}{% endblock %}
-        </div>
+      <div class="qtools-container">
+{#        <div class="jumbotron">#}
+          <div class="container text-center">
+            <h1 class="display-3">{{ title }}</h1>
+            <p>{{ subtitle }}</p>
+          </div>
+{#        </div>#}
+      <br/>
+      <br/>
+        {% block body %}{% endblock %}
+      </div>
     </main>
-    <!-- /.container -->
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="../static/bootstrap.min.js"></script>
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>
