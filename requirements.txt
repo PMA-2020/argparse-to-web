@@ -3,7 +3,7 @@ Flask==1.1.1
 itsdangerous==1.1.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-pmix==0.5.0
+pmix
 Werkzeug==0.15.5
 xlrd==1.2.0
 XlsxWriter==1.1.8

@@ -1,4 +1,4 @@
-SRC=pmix_borrow_web/
+SRC=argparse_to_web/
 
 .PHONY: lint tags ltags test all lintall codestyle docstyle lintsrc \
 linttest doctest doc docs code linters_all codesrc codetest docsrc \
@@ -55,11 +55,11 @@ test-survey-cto: #TODO: run a single unit test
 	python3 -m unittest discover -v
 
 # Dependency management
-upgrade:
-	# python3 -m pip uninstall pmix
-	python3 -m pip install --no-cache-dir --upgrade \
-	-r requirements-unlocked.txt; \
-	pip freeze > requirements.txt
+#upgrade:
+#	# python3 -m pip uninstall pmix
+#	python3 -m pip install --no-cache-dir --upgrade \
+#	-r requirements-unlocked.txt; \
+#	pip freeze > requirements.txt
 
 # Package management
 remove-previous-build:
